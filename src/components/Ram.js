@@ -5,39 +5,45 @@ import DataTable from 'react-data-table-component';
 import { Container, Row, Col } from "react-bootstrap"
 import { Button, Nav, NavDropdown, Navbar } from 'react-bootstrap';
 
-function View() {
+function Ram() {
     const [columns, setColumns] = useState([]);
     const [data, setData] = useState([]);
 
     // process CSV data
     const processData = dataString => {
+        const ram = [
+            "2GB", "4GB", "6GB" , 
+            "8GB" ,"12GB", "16GB", 
+            "24GB","32GB","64GB"]
         const dataStringLines = dataString.split(/\r\n|\n/);
         const headers = dataStringLines[0].split(/,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/);
-        console.log("this is header: " + headers);
         const list = [];
-        for (let i = 1; i < dataStringLines.length; i++) {
-            const row = dataStringLines[i].split(/,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/);
-            console.log("This is row: " + row);
-            if (headers && row.length == headers.length) {
-                const obj = {};
-                for (let j = 0; j < headers.length; j++) {
-                    let d = row[j];
-                    if (d.length > 0) {
-                        if (d[0] == '"')
-                        d = d.substring(1, d.length - 1);
-                        if (d[d.length - 1] == '"')
-                        d = d.substring(d.length - 2, 1);
-                    }
-                    console.log("this is d: " + d);
-                    if (headers[j]) {
-                        console.log("this is header name: " + headers[j]);
-                        obj[headers[j]] = d;
-                    }
-                }
+        for (let comp = 0; comp < ram.length; comp++) {
+            for (let i = 1; i < dataStringLines.length; i++) {
+                const row = dataStringLines[i].split(/,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/);
+                // console.log(typeof(ram[comp]))
+                if (row[7] === ram[comp]) {
 
-                // remove the blank rows
-                if (Object.values(obj).filter(x => x).length > 0) {
-                    list.push(obj);
+                    if (headers && row.length == headers.length) {
+                        const obj = {};
+                        for (let j = 0; j < headers.length; j++) {
+                            let d = row[j];
+                            if (d.length > 0) {
+                                if (d[0] == '"')
+                                    d = d.substring(1, d.length - 1);
+                                if (d[d.length - 1] == '"')
+                                    d = d.substring(d.length - 2, 1);
+                            }
+                            if (headers[j]) {
+                                obj[headers[j]] = d;
+                            }
+                        }
+
+                        // remove the blank rows
+                        if (Object.values(obj).filter(x => x).length > 0) {
+                            list.push(obj);
+                        }
+                    }
                 }
             }
         }
@@ -50,7 +56,7 @@ function View() {
 
         setData(list);
         setColumns(columns);
-        console.log(columns)
+        // console.log(columns)
     }
 
     // handle file upload
@@ -73,7 +79,7 @@ function View() {
     return (
         <Container>
             <Row className='text-center'>
-                <h3>Laptop Database</h3>
+                <h1>Sorted By Ram</h1>
             </Row>
             <input
                 type="file"
@@ -90,4 +96,4 @@ function View() {
     )
 }
 
-export default View;
+export default Ram;

@@ -8,8 +8,13 @@ import {
 } from "react-router-dom";
 import NavBar from "./components/NavBar"
 import Home from "./components/Home"
-import View from "./components/View"
+import Company from "./components/Company"
+import Type from "./components/Type"
 import Sort from "./components/Sort"
+import ScreenSize from "./components/ScreenSize"
+import Ram from "./components/Ram"
+import OperatingSystem from './components/OperatingSystem';
+import Price from './components/Price';
 
 function App() {
   return (
@@ -17,9 +22,14 @@ function App() {
       <div>
         <NavBar/>
         <Routes>
-          <Route path="/sort" element={<Sort />}/>
-          <Route path="/view" element={<View />}/>
           <Route path="/" element={<Home />}/>
+          <Route path="/company" element={<Company />}/>
+          <Route path="/product" element={<Type />}/>
+          <Route path="/screen" element={<ScreenSize />}/>
+          <Route path="/ram" element={<Ram />}/>
+          <Route path="/system" element={<OperatingSystem />}/>
+          <Route path="/price" element={<Price />}/>
+          <Route path="/sort" element={<Sort />}/>
         </Routes>
       </div>
     </Router>

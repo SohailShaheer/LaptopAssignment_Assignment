@@ -5,40 +5,48 @@ import DataTable from 'react-data-table-component';
 import { Container, Row, Col } from "react-bootstrap"
 import { Button, Nav, NavDropdown, Navbar } from 'react-bootstrap';
 
-function Home() {
-
+function ScreenSize() {
     const [columns, setColumns] = useState([]);
     const [data, setData] = useState([]);
 
     // process CSV data
     const processData = dataString => {
+        const size = [
+            "10.1", "11.3", "11.6",
+            "12", "12.3", "12.5", 
+            "13", "13.3", "13.5",
+            "13.9","14","14.1",
+            "15","15.4","15.6",
+            "17","17.3","18.4"]
         const dataStringLines = dataString.split(/\r\n|\n/);
         const headers = dataStringLines[0].split(/,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/);
         console.log("this is header: " + headers);
         const list = [];
-        for (let i = 1; i < dataStringLines.length; i++) {
-            const row = dataStringLines[i].split(/,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/);
-            console.log("This is row: " + row);
-            if (headers && row.length == headers.length) {
-                const obj = {};
-                for (let j = 0; j < headers.length; j++) {
-                    let d = row[j];
-                    if (d.length > 0) {
-                        if (d[0] == '"')
-                        d = d.substring(1, d.length - 1);
-                        if (d[d.length - 1] == '"')
-                        d = d.substring(d.length - 2, 1);
-                    }
-                    console.log("this is d: " + d);
-                    if (headers[j]) {
-                        console.log("this is header name: " + headers[j]);
-                        obj[headers[j]] = d;
-                    }
-                }
+        for (let comp = 0; comp < size.length; comp++) {
+            for (let i = 1; i < dataStringLines.length; i++) {
+                const row = dataStringLines[i].split(/,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/);
+                if (row[4] === size[comp]) {
 
-                // remove the blank rows
-                if (Object.values(obj).filter(x => x).length > 0) {
-                    list.push(obj);
+                    if (headers && row.length == headers.length) {
+                        const obj = {};
+                        for (let j = 0; j < headers.length; j++) {
+                            let d = row[j];
+                            if (d.length > 0) {
+                                if (d[0] == '"')
+                                    d = d.substring(1, d.length - 1);
+                                if (d[d.length - 1] == '"')
+                                    d = d.substring(d.length - 2, 1);
+                            }
+                            if (headers[j]) {
+                                obj[headers[j]] = d;
+                            }
+                        }
+
+                        // remove the blank rows
+                        if (Object.values(obj).filter(x => x).length > 0) {
+                            list.push(obj);
+                        }
+                    }
                 }
             }
         }
@@ -71,13 +79,11 @@ function Home() {
         };
         reader.readAsBinaryString(file);
     }
-
     return (
         <Container>
             <Row className='text-center'>
-                <h1>Laptop Database</h1>
+                <h1>Sorted ScreenSize</h1>
             </Row>
-            <p>Please Select a CSV file from your device</p>
             <input
                 type="file"
                 accept=".csv,.xlsx,.xls"
@@ -93,4 +99,4 @@ function Home() {
     )
 }
 
-export default Home;
+export default ScreenSize;

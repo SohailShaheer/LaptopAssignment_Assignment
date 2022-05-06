@@ -5,8 +5,7 @@ import DataTable from 'react-data-table-component';
 import { Container, Row, Col } from "react-bootstrap"
 import { Button, Nav, NavDropdown, Navbar } from 'react-bootstrap';
 
-function Home() {
-
+function Price() {
     const [columns, setColumns] = useState([]);
     const [data, setData] = useState([]);
 
@@ -14,45 +13,65 @@ function Home() {
     const processData = dataString => {
         const dataStringLines = dataString.split(/\r\n|\n/);
         const headers = dataStringLines[0].split(/,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/);
-        console.log("this is header: " + headers);
         const list = [];
-        for (let i = 1; i < dataStringLines.length; i++) {
-            const row = dataStringLines[i].split(/,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/);
-            console.log("This is row: " + row);
-            if (headers && row.length == headers.length) {
-                const obj = {};
-                for (let j = 0; j < headers.length; j++) {
-                    let d = row[j];
-                    if (d.length > 0) {
-                        if (d[0] == '"')
-                        d = d.substring(1, d.length - 1);
-                        if (d[d.length - 1] == '"')
-                        d = d.substring(d.length - 2, 1);
+            for (let i = 1; i < dataStringLines.length; i++) {
+                const row = dataStringLines[i].split(/,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/);
+                row[7] = parseFloat(row[7])
+                // console.log(typeof(row[7]))
+                if (headers && row.length == headers.length) {
+                    const obj = {};
+                    for (let j = 0; j < headers.length; j++) {
+                        let d = row[j];
+                        if (d.length > 0) {
+                            if (d[0] == '"')
+                                d = d.substring(1, d.length - 1);
+                            if (d[d.length - 1] == '"')
+                                d = d.substring(d.length - 2, 1);
+                        }
+                        if (headers[j]) {
+                            obj[headers[j]] = d;
+                        }
                     }
-                    console.log("this is d: " + d);
-                    if (headers[j]) {
-                        console.log("this is header name: " + headers[j]);
-                        obj[headers[j]] = d;
-                    }
-                }
 
-                // remove the blank rows
-                if (Object.values(obj).filter(x => x).length > 0) {
-                    list.push(obj);
+                    // remove the blank rows
+                    if (Object.values(obj).filter(x => x).length > 0) {
+                        list.push(obj);
+                    }
                 }
             }
-        }
 
         // prepare columns list from headers
         const columns = headers.map(c => ({
             name: c,
             selector: c,
         }));
-
+        list.sort(dynamicSort("Price_euros"));
         setData(list);
         setColumns(columns);
-        console.log(columns)
+        // console.log(typeof(columns))
     }
+
+    /**
+ * Function to sort alphabetically an array of objects by some specific key.
+ * 
+ * @param {String} property Key of the object to sort.
+ */
+function dynamicSort(property) {
+    var sortOrder = 1;
+
+    if(property[0] === "-") {
+        sortOrder = -1;
+        property = property.substr(1);
+    }
+
+    return function (a,b) {
+        if(sortOrder == -1){
+            return b[property].localeCompare(a[property]);
+        }else{
+            return a[property].localeCompare(b[property]);
+        }        
+    }
+}
 
     // handle file upload
     const handleFileUpload = e => {
@@ -71,13 +90,11 @@ function Home() {
         };
         reader.readAsBinaryString(file);
     }
-
     return (
         <Container>
             <Row className='text-center'>
-                <h1>Laptop Database</h1>
+                <h1>Sorted By Price</h1>
             </Row>
-            <p>Please Select a CSV file from your device</p>
             <input
                 type="file"
                 accept=".csv,.xlsx,.xls"
@@ -93,4 +110,4 @@ function Home() {
     )
 }
 
-export default Home;
+export default Price;
