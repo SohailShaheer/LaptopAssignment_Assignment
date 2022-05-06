@@ -20,16 +20,16 @@ function App() {
   return (
     <Router>
       <div>
-        <NavBar/>
+        <NavBar />
         <Routes>
-          <Route path="/" element={<Home />}/>
-          <Route path="/company" element={<Company />}/>
-          <Route path="/product" element={<Type />}/>
-          <Route path="/screen" element={<ScreenSize />}/>
-          <Route path="/ram" element={<Ram />}/>
-          <Route path="/system" element={<OperatingSystem />}/>
-          <Route path="/price" element={<Price />}/>
-          <Route path="/sort" element={<Sort />}/>
+          <Route path="/" element={<Home />} />
+          <Route path="/company" element={<Company />} />
+          <Route path="/product" element={<Type />} />
+          <Route path="/screen" element={<ScreenSize />} />
+          <Route path="/ram" element={<Ram />} />
+          <Route path="/system" element={<OperatingSystem />} />
+          <Route path="/price" element={<Price />} />
+          <Route path="/sort" element={<Sort />} />
         </Routes>
       </div>
     </Router>

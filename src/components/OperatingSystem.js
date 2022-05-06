@@ -103,6 +103,7 @@ function OperatingSystem() {
             <Row className='text-center'>
                 <h1>Sorted By Operating System</h1>
             </Row>
+            <h5>Please Select a CSV file from your device</h5>
             <input
                 type="file"
                 accept=".csv,.xlsx,.xls"

@@ -77,7 +77,7 @@ function Home() {
             <Row className='text-center'>
                 <h1>Laptop Database</h1>
             </Row>
-            <p>Please Select a CSV file from your device</p>
+            <h5>Please Select a CSV file from your device</h5>
             <input
                 type="file"
                 accept=".csv,.xlsx,.xls"

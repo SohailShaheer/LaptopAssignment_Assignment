@@ -103,12 +103,14 @@ function Sort() {
             <Row className='text-center'>
                 <h1>Customize</h1>
             </Row>
+            <h5>Please Select a CSV file from your device</h5>
             <input
                 type="file"
                 accept=".csv,.xlsx,.xls"
                 onChange={handleFileUpload}
             />
-            <p>Please Select your Preferred Combination</p>
+            <br/><br/><br/>
+            <h5>Please Select your Preferred Combination</h5>
             <form onSubmit={submitDataHandler}>
                 <div class="row">
                     <div class="col">
@@ -182,7 +184,7 @@ function Sort() {
                     </div>
 
                 </div>
-                <button style={{ marginTop: "1vw" }} type="submit" class="btn btn-secondary">Search</button>
+                <button style={{ marginTop: "1vw" }} type="submit" class="btn btn-primary">Search</button>
             </form>
             <DataTable
                 pagination
